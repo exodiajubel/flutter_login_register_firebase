@@ -1,44 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_tutorial/bloc/login_bloc.dart';
-import 'package:flutter_tutorial/model/account.dart';
-import 'package:flutter_tutorial/page/home.dart';
+import 'package:flutter_tutorial/bloc/registration_bloc.dart';
 
-class Login extends StatefulWidget {
-  Login({Key key}) : super(key: key);
+class Registration extends StatefulWidget {
+  Registration({Key key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  _RegistrationState createState() => _RegistrationState();
 }
 
-class _LoginState extends State<Login> {
-  Account account = Account();
+class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Login",
+          "Registration",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
-      body: BlocConsumer<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state is LoginSuccess) {
-            Navigator.pushReplacementNamed(context, '/home');
-          }
-        },
+      body: BlocConsumer<RegistrationBloc, RegistrationState>(
+        listener: (context, state) {},
         builder: (context, state) {
-          return buildLoginInitial(context);
+          return buildRegistrationInitial(context);
         },
       ),
     );
   }
 
-  Widget buildLoginInitial(BuildContext context) {
+  Widget buildRegistrationInitial(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       child: Column(
@@ -48,15 +41,12 @@ class _LoginState extends State<Login> {
             margin: EdgeInsets.only(
               top: 20,
             ),
-            child: Text("UserName"),
+            child: Text("Username"),
           ),
           Container(
             width: 200,
             child: TextField(
               decoration: InputDecoration(hintText: "Owen"),
-              onChanged: (value) {
-                account.loginUsername = value;
-              },
             ),
           ),
           Container(
@@ -70,9 +60,18 @@ class _LoginState extends State<Login> {
             child: TextField(
               obscureText: true,
               decoration: InputDecoration(hintText: "Password"),
-              onChanged: (value) {
-                account.loginPassword = value;
-              },
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              top: 20,
+            ),
+            child: Text("Phone number"),
+          ),
+          Container(
+            width: 200,
+            child: TextField(
+              decoration: InputDecoration(hintText: "0932"),
             ),
           ),
           Container(
@@ -86,13 +85,10 @@ class _LoginState extends State<Login> {
               color: Colors.blue,
             ),
             child: FlatButton(
-              onPressed: () {
-                triggerLoginButton(
-                    context, account.loginUsername, account.loginPassword);
-              },
+              onPressed: () {},
               child: Container(
                 child: Text(
-                  "Login",
+                  "Register",
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -102,10 +98,4 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-}
-
-void triggerLoginButton(
-    BuildContext context, String username, String password) {
-  final loginBloc = BlocProvider.of<LoginBloc>(context);
-  loginBloc.add(OnClickLogin(username, password));
 }
