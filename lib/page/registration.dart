@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tutorial/bloc/registration_bloc.dart';
+import 'package:flutter_tutorial/model/account.dart';
 
 class Registration extends StatefulWidget {
   Registration({Key key}) : super(key: key);
@@ -10,6 +11,7 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
+  Account account = Account();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +25,11 @@ class _RegistrationState extends State<Registration> {
         ),
       ),
       body: BlocConsumer<RegistrationBloc, RegistrationState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is RegistrationSuccess) {
+            Navigator.pushNamed(context, '/verification');
+          }
+        },
         builder: (context, state) {
           return buildRegistrationInitial(context);
         },
@@ -46,7 +52,10 @@ class _RegistrationState extends State<Registration> {
           Container(
             width: 200,
             child: TextField(
-              decoration: InputDecoration(hintText: "Owen"),
+              decoration: InputDecoration(hintText: "Jubel"),
+              onChanged: (value) {
+                account.loginUsername = value;
+              },
             ),
           ),
           Container(
@@ -60,6 +69,9 @@ class _RegistrationState extends State<Registration> {
             child: TextField(
               obscureText: true,
               decoration: InputDecoration(hintText: "Password"),
+              onChanged: (value) {
+                account.loginPassword = value;
+              },
             ),
           ),
           Container(
@@ -72,6 +84,9 @@ class _RegistrationState extends State<Registration> {
             width: 200,
             child: TextField(
               decoration: InputDecoration(hintText: "0932"),
+              onChanged: (value) {
+                account.registrationPhoneNumber = value;
+              },
             ),
           ),
           Container(
@@ -85,7 +100,13 @@ class _RegistrationState extends State<Registration> {
               color: Colors.blue,
             ),
             child: FlatButton(
-              onPressed: () {},
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              onPressed: () {
+                triggerRegisterButton(context, account.loginUsername,
+                    account.loginPassword, account.registrationPhoneNumber);
+              },
               child: Container(
                 child: Text(
                   "Register",
@@ -98,4 +119,10 @@ class _RegistrationState extends State<Registration> {
       ),
     );
   }
+}
+
+void triggerRegisterButton(BuildContext context, String username,
+    String password, String phoneNumber) {
+  final registrationBloc = BlocProvider.of<RegistrationBloc>(context);
+  registrationBloc.add(OnClickRegister(username, password, phoneNumber));
 }

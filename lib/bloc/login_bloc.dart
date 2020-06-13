@@ -23,6 +23,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } else if (await database.getLoginData(event.username, event.password) ==
           false) {
         print('Incorrect username or password!');
+      } else {
+        print('Connection Error');
       }
     }
   }

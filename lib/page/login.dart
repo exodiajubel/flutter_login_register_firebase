@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
           Container(
             width: 200,
             child: TextField(
-              decoration: InputDecoration(hintText: "Owen"),
+              decoration: InputDecoration(hintText: "Jubel"),
               onChanged: (value) {
                 account.loginUsername = value;
               },
@@ -86,6 +86,9 @@ class _LoginState extends State<Login> {
               color: Colors.blue,
             ),
             child: FlatButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
               onPressed: () {
                 triggerLoginButton(
                     context, account.loginUsername, account.loginPassword);
