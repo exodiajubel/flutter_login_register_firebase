@@ -32,9 +32,20 @@ class _LoginState extends State<Login> {
           }
         },
         builder: (context, state) {
+          if (state is LoginInitial) {
+            return buildLoginInitial(context);
+          } else if (state is LoginLoading) {
+            return buildLoading(context);
+          }
           return buildLoginInitial(context);
         },
       ),
+    );
+  }
+
+  Widget buildLoading(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(),
     );
   }
 

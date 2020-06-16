@@ -40,6 +40,12 @@ class _VerificationState extends State<Verification> {
         ));
   }
 
+  Widget buildLoading(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
   final FocusNode _firstInputFocusNode = new FocusNode();
   final FocusNode _secondInputFocusNode = new FocusNode();
   final FocusNode _thirdInputFocusNode = new FocusNode();

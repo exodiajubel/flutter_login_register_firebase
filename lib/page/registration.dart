@@ -31,9 +31,20 @@ class _RegistrationState extends State<Registration> {
           }
         },
         builder: (context, state) {
+          if (state is RegistrationLoading) {
+            return buildLoading(context);
+          } else if (state is RegistrationInitial) {
+            return buildRegistrationInitial(context);
+          }
           return buildRegistrationInitial(context);
         },
       ),
+    );
+  }
+
+  Widget buildLoading(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(),
     );
   }
 

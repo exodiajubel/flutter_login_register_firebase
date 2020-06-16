@@ -13,3 +13,8 @@ class VerificationSuccess extends VerificationState {
   @override
   List<Object> get props => [];
 }
+
+class VerificationLoading extends VerificationState {
+  @override
+  List<Object> get props => [];
+}

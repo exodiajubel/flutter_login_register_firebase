@@ -13,3 +13,8 @@ class RegistrationSuccess extends RegistrationState {
   @override
   List<Object> get props => [];
 }
+
+class RegistrationLoading extends RegistrationState {
+  @override
+  List<Object> get props => [];
+}

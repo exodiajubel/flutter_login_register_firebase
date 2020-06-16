@@ -24,6 +24,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
     VerificationEvent event,
   ) async* {
     if (event is OnSendPhoneNumber) {
+      yield VerificationLoading();
       await firebaseAuth.verifyPhoneNumber(
           phoneNumber: '+63' + event.phoneNumber,
           timeout: Duration(seconds: 0),
@@ -48,10 +49,13 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
           canTransferToNextPage = false;
         });
       });
-      if (canTransferToNextPage) {
+      if (canTransferToNextPage == true) {
         yield VerificationSuccess();
+      } else if (canTransferToNextPage == false) {
+        yield VerificationLoading();
       }
     } else if (event is OnVerifyCode) {
+      yield VerificationLoading();
       authCredential = PhoneAuthProvider.getCredential(
           verificationId: googleCode, smsCode: event.verificationCode);
       await Future.delayed(Duration(seconds: 5), () async {
@@ -69,6 +73,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
             Account.registrationPassword, '+63' + Account.verifyPhoneNumber);
         yield VerificationSuccess();
       } else {
+        yield VerificationInitial();
         print('Verification Error');
       }
     }

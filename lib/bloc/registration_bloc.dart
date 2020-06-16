@@ -18,23 +18,30 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     RegistrationEvent event,
   ) async* {
     if (event is OnClickRegister) {
+      yield RegistrationLoading();
       if (await database.checkExistingUsername(event.username) == true) {
+        yield RegistrationInitial();
         print('Username already exist');
       } else if (await database.checkExistingUsername(event.username) ==
           false) {
+        yield RegistrationLoading();
         if (await database.checkExistingPhoneNumber(event.phoneNumber) ==
             true) {
+          yield RegistrationInitial();
           print('Phone number already exist');
         } else if (await database.checkExistingPhoneNumber(event.phoneNumber) ==
             false) {
+          yield RegistrationLoading();
           Account.registrationUsername = event.username;
           Account.registrationPassword = event.password;
           Account.verifyPhoneNumber = event.phoneNumber;
           yield RegistrationSuccess();
         } else {
+          yield RegistrationInitial();
           print('Phone number invalid');
         }
       } else {
+        yield RegistrationInitial();
         print('Connection Error');
       }
     }
